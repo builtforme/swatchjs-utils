@@ -1,2 +1,3 @@
+const lib = require('./lib');
 
-module.exports = () => {};
+module.exports = lib;
