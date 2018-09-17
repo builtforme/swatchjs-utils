@@ -1,0 +1,47 @@
+{
+  "name": "swatchjs-utils",
+  "version": "0.0.1",
+  "description": "Utilities for SwatchJS, a framework for easily creating and exposing APIs as methods",
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "nyc mocha 'test/**/*.test.js'",
+    "lint": "./node_modules/.bin/eslint --ext .js index.js lib test",
+    "coveralls": "nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
+    "codecov": "nyc report --reporter=lcov > coverage.lcov && codecov",
+    "test:debug": "mocha --debug-brk"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/builtforme/swatchjs-utils.git"
+  },
+  "keywords": [
+    "framework",
+    "methods",
+    "api"
+  ],
+  "author": "Built For Me",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/builtforme/swatchjs-urils/issues"
+  },
+  "homepage": "https://github.com/builtforme/swatchjs-utils#readme",
+  "dependencies": {
+    "function-arguments": "^1.0.8",
+    "joi": "^13.6.0"
+  },
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "codecov": "^3.0.4",
+    "coveralls": "^3.0.2",
+    "eslint": "^5.4.0",
+    "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "mocha": "^5.2.0",
+    "mocha-eslint": "^4.1.0",
+    "nyc": "^13.0.1"
+  },
+  "directories": {
+    "lib": "lib",
+    "test": "test"
+  }
+}
