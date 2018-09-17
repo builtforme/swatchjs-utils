@@ -59,3 +59,6 @@ typings/
 
 # next.js build output
 .next
+
+# NYC coverage report
+coverage.lcov
