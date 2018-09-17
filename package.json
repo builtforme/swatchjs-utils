@@ -22,7 +22,7 @@
   "author": "Built For Me",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/builtforme/swatchjs-urils/issues"
+    "url": "https://github.com/builtforme/swatchjs-utils/issues"
   },
   "homepage": "https://github.com/builtforme/swatchjs-utils#readme",
   "dependencies": {
