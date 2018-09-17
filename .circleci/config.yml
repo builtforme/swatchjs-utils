@@ -1,0 +1,96 @@
+version: 2
+
+defaults: &defaults
+  docker:
+    - image: circleci/node:10.6
+  working_directory: ~/repo
+
+# The traditional CircleCI jobs description includes restore_cache and
+# save_cache to get performance gains across runs.  This is invalidated by
+# using "npm ci", however, because it force-removes the "node_modules"
+# directory before beginning the install.
+#
+# We do, however, make use of a CircleCI workspace to get persisted files
+# between jobs along the workflow... such that later jobs do not also need to
+# run "npm ci", they only need to attach_workspace.
+
+jobs:
+
+  build:
+    <<: *defaults
+    steps:
+      - checkout
+      - run: npm ci
+      - run: npm test
+      - persist_to_workspace:
+          root: .
+          paths:
+            - .
+
+  codecov:
+    <<: *defaults
+    steps:
+      - attach_workspace: { at: . }
+      - run: npm run codecov
+
+  coveralls:
+    <<: *defaults
+    steps:
+      - attach_workspace: { at: . }
+      - run: npm run coveralls
+
+  bump_version:
+    <<: *defaults
+    steps:
+      # We have to use 'checkout' in order to get github's info injected into
+      # ~/.ssh/known_hosts.  We overwrite the checkout with the information from
+      # the workspace.
+      - checkout
+      - attach_workspace: { at: . }
+      - run: |
+            git config --global push.default simple
+            git config --global user.name "Built For Me Automation"
+            git config --global user.email "automation@builtforme.tech"
+      - run: npm version patch --message "bump version to %s [ci skip]"
+      - add_ssh_keys:
+          fingerprints:
+            - "a3:7d:73:b8:70:cc:6d:aa:6a:e7:3e:08:33:7b:69:f9"
+      - run: git push --follow-tags
+      - persist_to_workspace:
+          root: .
+          paths:
+            - package.json
+            - .git
+
+  publish:
+    <<: *defaults
+    steps:
+      - checkout
+      - attach_workspace: { at: . }
+      - run: |
+          echo "//registry.npmjs.org/:_authToken=$NPM_TOKEN" >> ~/.npmrc
+          npm publish --access public
+workflows:
+  version: 2
+  build_tag_publish:
+    jobs:
+        - build
+        - coveralls:
+            requires:
+              - build
+        - codecov:
+            requires:
+              - build
+        - bump_version:
+            filters:
+              branches:
+                only: master
+            requires:
+              - coveralls
+              - codecov
+        - publish:
+            filters:
+              branches:
+                only: master
+            requires:
+              - bump_version
