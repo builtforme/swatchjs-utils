@@ -2,22 +2,26 @@
   "name": "swatchjs-utils",
   "version": "0.0.2",
   "description": "Utilities for SwatchJS, a framework for easily creating and exposing APIs as methods",
-  "main": "lib/index.js",
+  "main": "dist/index.js",
   "scripts": {
-    "test": "nyc mocha 'test/**/*.test.js'",
+    "test": "nyc mocha --opts test/mocha.opts 'test/**/*.test.js'",
+    "test:debug": "mocha --debug-brk",
     "lint": "./node_modules/.bin/eslint --ext .js index.js lib test",
+    "build": "babel . -d dist --ignore coverage,dist,node_modules",
+    "clean": "rm -rf dist/",
     "coveralls": "nyc report --reporter=text-lcov | ./node_modules/coveralls/bin/coveralls.js",
-    "codecov": "nyc report --reporter=lcov > coverage.lcov && codecov",
-    "test:debug": "mocha --debug-brk"
+    "codecov": "nyc report --reporter=lcov > coverage.lcov && codecov"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/builtforme/swatchjs-utils.git"
   },
   "keywords": [
-    "framework",
+    "swatchjs",
+    "utils",
     "methods",
-    "api"
+    "api",
+    "framework"
   ],
   "author": "Built For Me",
   "license": "MIT",
@@ -25,23 +29,34 @@
     "url": "https://github.com/builtforme/swatchjs-utils/issues"
   },
   "homepage": "https://github.com/builtforme/swatchjs-utils#readme",
-  "dependencies": {
-    "function-arguments": "^1.0.8",
-    "joi": "^13.6.0"
-  },
   "devDependencies": {
+    "babel-cli": "^6.26.0",
+    "babel-eslint": "^9.0.0",
+    "babel-plugin-transform-regenerator": "^6.26.0",
+    "babel-plugin-transform-runtime": "^6.23.0",
+    "babel-preset-env": "^1.7.0",
+    "babel-preset-es3": "^1.0.1",
+    "babel-preset-stage-3": "^6.24.1",
+    "babel-register": "^6.26.0",
     "chai": "^4.1.2",
+    "chai-as-promised": "^7.1.1",
     "codecov": "^3.0.4",
     "coveralls": "^3.0.2",
-    "eslint": "^5.4.0",
     "eslint-config-airbnb-base": "^13.1.0",
+    "eslint-plugin-babel": "^5.1.0",
     "eslint-plugin-import": "^2.14.0",
     "mocha": "^5.2.0",
     "mocha-eslint": "^4.1.0",
-    "nyc": "^13.0.1"
+    "nyc": "^13.0.1",
+    "sinon": "^6.1.5",
+    "supertest": "^3.1.0"
   },
-  "directories": {
-    "lib": "lib",
-    "test": "test"
-  }
+  "dependencies": {
+    "babel-polyfill": "^6.26.0",
+    "babel-runtime": "^6.26.0",
+    "lodash": "^4.17.11"
+  },
+  "files": [
+    "dist"
+  ]
 }
