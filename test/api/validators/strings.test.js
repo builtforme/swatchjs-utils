@@ -54,6 +54,22 @@ describe('validators.strings', () => {
     });
   });
 
+  describe('validateMinMaxLength', () => {
+    const oneFiveValidator = stringValidators.validateMinMaxLength(1, 5, error);
+
+    it('should reject invalid strings', () => {
+      expect(() => oneFiveValidator('')).to.throw(error);
+      expect(() => oneFiveValidator('abcdef')).to.throw(error);
+      expect(() => oneFiveValidator('too long')).to.throw(error);
+    });
+
+    it('should allow valid strings', () => {
+      expect(oneFiveValidator('a')).to.equal(undefined);
+      expect(oneFiveValidator('abc')).to.equal(undefined);
+      expect(oneFiveValidator('abcde')).to.equal(undefined);
+    });
+  });
+
   describe('validateOptionList', () => {
     const options = ['a', 'b', 'c'];
     const validator = stringValidators.validateOptionList(options, error);
