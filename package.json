@@ -1,6 +1,6 @@
 {
   "name": "swatchjs-utils",
-  "version": "0.0.4",
+  "version": "0.0.5",
   "description": "Utilities for SwatchJS, a framework for easily creating and exposing APIs as methods",
   "main": "dist/index.js",
   "scripts": {
